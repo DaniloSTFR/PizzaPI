@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `pizzaPI`.`Cliente` (
   `nome` VARCHAR(150) NOT NULL,
   `telefone` VARCHAR(20) NULL,
   `codEndereco` INT NOT NULL,
-  INDEX `fk_Cliente_Endereco_idx` (`codEndereco` ASC) VISIBLE,
+  INDEX `fk_Cliente_Endereco_idx` (`codEndereco` ASC) ,
   PRIMARY KEY (`codCliente`),
   CONSTRAINT `fk_Cliente_Endereco`
     FOREIGN KEY (`codEndereco`)
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `pizzaPI`.`Produtos` (
   `codTipoProduto` INT NOT NULL,
   `statusAtivo` BIT(1) NOT NULL,
   PRIMARY KEY (`codProdutos`),
-  INDEX `fk_Produtos_TipoProduto1_idx` (`codTipoProduto` ASC) VISIBLE,
+  INDEX `fk_Produtos_TipoProduto1_idx` (`codTipoProduto` ASC) ,
   CONSTRAINT `fk_Produtos_TipoProduto1`
     FOREIGN KEY (`codTipoProduto`)
     REFERENCES `pizzaPI`.`TipoProduto` (`codTipoProduto`)
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `pizzaPI`.`Usuario` (
   `senha` VARCHAR(45) NOT NULL,
   `codCargos` INT NOT NULL,
   PRIMARY KEY (`codUsuario`),
-  INDEX `fk_Usuario_Cargos1_idx` (`codCargos` ASC) VISIBLE,
+  INDEX `fk_Usuario_Cargos1_idx` (`codCargos` ASC) ,
   CONSTRAINT `fk_Usuario_Cargos1`
     FOREIGN KEY (`codCargos`)
     REFERENCES `pizzaPI`.`Cargos` (`codCargos`)
@@ -141,9 +141,9 @@ CREATE TABLE IF NOT EXISTS `pizzaPI`.`Pedido` (
   `codUsuarioExclusao` INT NULL,
   `dataExclusao` DATETIME NULL,
   PRIMARY KEY (`codPedido`),
-  INDEX `fk_Pedido_StatusPedido_idx` (`codStatusPedido` ASC) INVISIBLE,
-  INDEX `fk_Pedido_Cliente_idx` (`codCliente` ASC) VISIBLE,
-  INDEX `fk_Pedido_Usuario_idx` (`codUsuarioRegistro` ASC) INVISIBLE,
+  INDEX `fk_Pedido_StatusPedido_idx` (`codStatusPedido` ASC) ,
+  INDEX `fk_Pedido_Cliente_idx` (`codCliente` ASC) ,
+  INDEX `fk_Pedido_Usuario_idx` (`codUsuarioRegistro` ASC) ,
   CONSTRAINT `fk_Pedido_StatusPedido1`
     FOREIGN KEY (`codStatusPedido`)
     REFERENCES `pizzaPI`.`StatusPedido` (`codStatusPedido`)
@@ -173,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `pizzaPI`.`ItensPedido` (
   `quatidade` INT NOT NULL,
   `valosFinal` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`codPedido`, `codProdutos`),
-  INDEX `fk_Pedido_has_Produtos_Produtos1_idx` (`codProdutos` ASC) VISIBLE,
-  INDEX `fk_Pedido_has_Produtos_Pedido1_idx` (`codPedido` ASC) VISIBLE,
+  INDEX `fk_Pedido_has_Produtos_Produtos1_idx` (`codProdutos` ASC) ,
+  INDEX `fk_Pedido_has_Produtos_Pedido1_idx` (`codPedido` ASC) ,
   CONSTRAINT `fk_ItensPedido_Pedido1`
     FOREIGN KEY (`codPedido`)
     REFERENCES `pizzaPI`.`Pedido` (`codPedido`)
