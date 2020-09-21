@@ -1,6 +1,6 @@
 <?php
 if(!$_SESSION['nome']) {
-	header('Location: telaLogin.php');
+	header('Location: login.php');
 	exit();
 }
 

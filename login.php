@@ -1,6 +1,5 @@
   <?php
   session_start();
-  include('conexao.php');
   ?>
 
   <!DOCTYPE html>
@@ -22,7 +21,7 @@
   </head>
 
   <body class="text-center">
-    <form action='login.php' method='post' class="form-signin">
+    <form action='controladores/login/login.controller.php' method='post' class="form-signin">
       <h1 class="h3 mb-3 font-weight-normal">Faça login</h1>
       <label for="inputUsuario" class="sr-only">Usuario</label>
       <input type="text" name = 'login' id="inputUsuario" class="form-control" placeholder="Usuario" required autofocus>

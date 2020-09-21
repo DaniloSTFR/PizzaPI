@@ -1,4 +1,10 @@
-<!doctype html>
+  <?php
+  session_start();
+  require ('controladores/login/verificaLogin.controller.php') // verificar se o usuario esta logado
+  ?>
+
+
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -9,7 +15,8 @@
 
 
     <!-- Bootstrap core CSS -->
-<link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 
     <style>
       .bd-placeholder-img {
@@ -84,6 +91,9 @@
       <input class="form-control mr-sm-2" type="text" placeholder="Pedidos" aria-label="Search">
       <button class="btn btn-secondary my-2 my-sm-0" type="submit">Procurar</button>
     </form>
+    <div class="nav-item">  
+      <a class="nav-link" href="controladores/login/logout.controller.php">Sair</a>
+    </div>
   </div>
 </nav>
 
@@ -93,5 +103,5 @@
   ?>
 </main><!-- /.container -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+      <script>window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js""><\/script>')</script><script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js"></script>
 </html>

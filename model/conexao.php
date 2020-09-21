@@ -1,4 +1,7 @@
 <?php
+// esse arquivo não é mais necessario para a apalicação
+// a funcionalidade foi susbstituido por conexao.class.php
+
 define('HOST', 'localhost');
 define('USUARIO', 'root');
 define('SENHA', '');
