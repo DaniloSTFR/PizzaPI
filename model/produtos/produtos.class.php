@@ -17,9 +17,10 @@ class Produtos{
         $conexao = new Conexao(); 
 
         $query  = 'SELECT ';
-        $query .= 'PDT.codProdutos, PDT.nomeProduto, PDT.descricaoProduto, PDT.valor, PDT.statusAtivo, TP.codTipoProduto,TP.descricaoTipo ';
+        $query .= 'PDT.codProdutos, PDT.nomeProduto, PDT.descricaoProduto , PDT.valor, PDT.statusAtivo, TP.codTipoProduto,TP.descricaoTipo ';
         $query .= 'FROM produtos AS PDT ';
-        $query .= 'INNER JOIN tipoproduto AS TP ON TP.codTipoProduto = PDT.codTipoProduto; ';
+        $query .= 'INNER JOIN tipoproduto AS TP ON TP.codTipoProduto = PDT.codTipoProduto ';
+        $query .= 'COLLATE utf8_general_ci ; ';
 
         $this->result = mysqli_query($conexao->getConexao(), $query);
 

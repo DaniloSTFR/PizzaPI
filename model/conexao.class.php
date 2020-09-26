@@ -11,7 +11,9 @@ class Conexao {
     
     
     function __construct() {
+
         $this->conexao = mysqli_connect($this->host, $this->usuario, $this->senha, $this->db);
+        mysqli_set_charset ( $this->conexao , "utf8" );
         //echo ('<string> console.log ("'.$this->host.'") </string>');
         // Check connection
         if (!$this->conexao ) {
