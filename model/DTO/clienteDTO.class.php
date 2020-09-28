@@ -25,12 +25,21 @@ class ClienteDTO {
        return $this->telefone;
     }
 
-    private $codEndereco; 
-    function setCodEndereco($valor){
-        $this->codEndereco = $valor;
+    private $endereco; 
+    function setEndereco($valor){
+        $this->endereco = $valor;
     }
-    function getCodEndereco(){
-       return $this->codEndereco;
+    function getEndereco(){
+       return $this->endereco;
+    }
+
+
+    private $listaEnderecos; 
+    function setListaEnderecos($valor){
+        $this->listaEnderecos = $valor;
+    }
+    function getListaEnderecos(){
+       return $this->codEndelistaEnderecosreco;
     }
 
 }

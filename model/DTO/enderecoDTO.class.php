@@ -41,5 +41,22 @@ class EnderecoDTO {
        return $this->numero;
     }
 
+    private $cep;
+    function setCep($valor){
+        $this->cep = $valor;
+    }
+    function getCep(){
+       return $this->cep;
+    }
+    
+    private $codCliente; 
+    function setCodCliente($valor){
+        $this->codCliente = $valor;
+    }
+    function getCodCliente(){
+       return $this->codCliente;
+    }
+
+
 }
 ?>

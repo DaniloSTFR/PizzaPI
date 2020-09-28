@@ -37,8 +37,8 @@
       echo "<td>".$value->getDescricaoProduto()."</td>";
       echo "<td>R$".$value->getValor()."</td>";
 			echo "<td>";
-				echo '<a class="btn btn-danger" href="listarprofessores.php?acao=excluir&id='.$value->getCodProdutos().'">Excluir</a> ';
-				echo '<a class="btn btn-warning" href="listarprofessores.php?acao=editar&id='.$value->getCodProdutos().'">Editar</a>';
+				echo '<a class="btn btn-danger" href="?controladores=produtos&acao=listar&excluir=1&id='.$value->getCodProdutos().'">Excluir</a> ';
+				echo '<a class="btn btn-warning" href="?controladores=produtos&acao=listar&editar=1&id='.$value->getCodProdutos().'">Editar</a>';
 			echo "</td>"; 
     echo "</tr>";
     $i++;
