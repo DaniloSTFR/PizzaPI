@@ -35,11 +35,9 @@ class Enderecos{
 
         //$conexao->close();
 
-        if ($this->resultEnd === TRUE) {
-          // echo "New record created successfully";
-         } else {
-           return false;
-         }
+        if ($this->resultEnd !== TRUE) {
+          return false;
+         } 
 
         $novoEndereco->setCodEndereco($last_id);
         $novoEndereco->setLogradouro($logradouro);

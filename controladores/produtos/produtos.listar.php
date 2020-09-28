@@ -19,10 +19,10 @@
     <thead class='thead-dark'>
       <tr>
         <th scope='col'>#</th>
-        <th scope='col'>NOME</th>
+        <th scope='col'>TIPO</th>
+        <th scope='col'>PRODUTO</th>
         <th scope='col'>DESCRIÇÃO</th>
         <th scope='col'>VALOR</th>
-        <th scope='col'>TIPO</th>
         <th scope='col'>OPÇÕES</th>
       </tr>
     </thead>
@@ -46,7 +46,4 @@
 	}
   echo "</tbody>
   </table>";
-
-
-
 ?>

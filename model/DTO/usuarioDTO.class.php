@@ -41,5 +41,13 @@ class UsuarioDTO {
        return $this->codCargos;
     }
 
+    private $descricaoCargos; 
+    function setDescricaoCargos($valor){
+        $this->descricaoCargos = $valor;
+    }
+    function getDescricaoCargos(){
+       return $this->descricaoCargos;
+    }
+
 }
 ?>

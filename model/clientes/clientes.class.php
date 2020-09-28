@@ -21,7 +21,6 @@ class Clientes{
         $conexao = new Conexao();
         $novoCliente = new ClienteDTO();
 
-
         $nomeSQL = mysqli_real_escape_string($conexao->getConexao(), $nome);
         $telefoneSQL = mysqli_real_escape_string($conexao->getConexao(), $telefone);
 
@@ -31,11 +30,9 @@ class Clientes{
         $this->result = mysqli_query($conexao->getConexao(), $query);
         $last_id = $conexao->getConexao()->insert_id;
 
-       if ($this->result === TRUE) {
-           // echo "New record created successfully";
-          } else {
+        if ($this->result !== TRUE)  {
             return false;
-          }
+        } 
  
        // $conexao->close();
 
@@ -56,6 +53,27 @@ class Clientes{
     function inserirEnderecoCliente($logradouro, $numero, $bairro, $complemento, $cep, $codCliente){
         $novoEndereco = new Enderecos();
         return $novoEndereco->inserirEndereco($logradouro, $numero, $bairro, $complemento, $cep, $codCliente);
+    }
+
+    function listarClientes(){
+        $conexao = new Conexao(); 
+
+        $query  = ' SELECT * FROM pizzapi.cliente ';
+
+        $this->result = mysqli_query($conexao->getConexao(), $query);
+
+        while($row = mysqli_fetch_array($this->result) ){
+            $cliente= new ClienteDTO();
+
+            $cliente->setCodCliente($row['codCliente']); 
+            $cliente->setNome($row['nome']); 
+            $cliente->setTelefone($row['telefone']);     
+            
+            array_push($this->listaClientes,$cliente);
+
+        }
+
+        return ($this->listaClientes);
     }
 
     function getFetchAssoc(){

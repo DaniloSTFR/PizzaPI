@@ -7,12 +7,12 @@ $formPost =  ($_SERVER["REQUEST_METHOD"] == "POST");
 $novoCliente = new Clientes();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $name = $_POST["nomeCliente"];
+  $name = strtoupper($_POST["nomeCliente"]);
   $telefone =  $_POST["telefone"];
-  $logradouro =  $_POST["endereco"];
+  $logradouro =  strtoupper($_POST["endereco"]);
   $numero =  $_POST["numero"];
-  $bairro =  $_POST["bairro"];
-  $complemento =$_POST["complemento"];
+  $bairro =  strtoupper($_POST["bairro"]);
+  $complemento = strtoupper($_POST["complemento"]);
   $cep =$_POST["cep"];
 
   $cliente =  $novoCliente->inserirCliente($name, $telefone, $logradouro, $numero, $bairro, $complemento, $cep);
