@@ -76,6 +76,44 @@ class Clientes{
         return ($this->listaClientes);
     }
 
+    function bucarClientesDTO($cliente){
+        $conexao = new Conexao();
+        $clienteDTO= new ClienteDTO();
+        $enderecoDTO = new EnderecoDTO();
+
+        $clienteSQL = mysqli_real_escape_string($conexao->getConexao(), $cliente);
+
+        $query   = "SELECT "; 
+        $query  .= "C.codCliente, C.nome, C.telefone, E.codEndereco, E.logradouro, E.numero, E.bairro, E.complemento, E.cep ";
+        $query  .= "FROM pizzapi.cliente AS C ";
+        $query  .= "INNER JOIN pizzapi.endereco AS E ON E.codCliente = C.codCliente ";
+        $query  .= "WHERE C.codCliente =". $cliente. " ;";
+
+        $this->result = mysqli_query($conexao->getConexao(), $query);
+
+        while($row = mysqli_fetch_array($this->result) ){
+            $clienteDTO->setCodCliente($row['codCliente']); 
+            $clienteDTO->setNome($row['nome']); 
+            $clienteDTO->setTelefone($row['telefone']);
+            
+            $enderecoDTO->setCodEndereco($row['codEndereco']);
+            $enderecoDTO->setLogradouro($row['logradouro']);
+            $enderecoDTO->setBairro($row['bairro']);
+            $enderecoDTO->setComplemento($row['complemento']);
+            $enderecoDTO->setNumero($row['numero']);
+            $enderecoDTO->setCep($row['cep']);
+            $enderecoDTO->setCodCliente($row['codCliente']);
+
+            $clienteDTO->setEndereco($enderecoDTO);
+            
+            //array_push($this->listaClientes,$cliente);
+
+        }
+
+        return $clienteDTO;
+
+    }
+
     function getFetchAssoc(){
         return mysqli_fetch_assoc($this->result);
     }

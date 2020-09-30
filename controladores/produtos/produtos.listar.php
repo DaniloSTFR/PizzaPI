@@ -10,7 +10,7 @@
   include('model/produtos/produtos.class.php');
 
   $produtos = new Produtos();
-  $listarDeProdutos = $produtos -> listarProdutos();
+  $listarDeProdutos = $produtos -> listarProdutos(false);
   //var_dump($saida);
   //print_r($saida); 
 

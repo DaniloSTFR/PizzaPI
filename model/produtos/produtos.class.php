@@ -1,5 +1,5 @@
 <?php 
-include('model/conexao.class.php');
+require_once('model/conexao.class.php');
 include('model/DTO/produtosDTO.class.php');
 
 /* include('../../model/conexao.class.php');
@@ -13,14 +13,19 @@ class Produtos{
     function __construct() {
     }
 
-    function listarProdutos(){
+    function listarProdutos($ativo){
         $conexao = new Conexao(); 
 
         $query  = 'SELECT ';
         $query .= 'PDT.codProdutos, PDT.nomeProduto, PDT.descricaoProduto , PDT.valor, PDT.statusAtivo, TP.codTipoProduto,TP.descricaoTipo ';
         $query .= 'FROM produtos AS PDT ';
         $query .= 'INNER JOIN tipoproduto AS TP ON TP.codTipoProduto = PDT.codTipoProduto ';
-        $query .= 'COLLATE utf8_general_ci ; ';
+        if($ativo){
+            $query .= 'WHERE PDT.statusAtivo = 1 ';
+        }
+        $query .= ' ORDER BY TP.descricaoTipo, PDT.nomeProduto ASC; ';
+
+        echo ('<script> console.log ("'.$query.'") </script>');
 
         $this->result = mysqli_query($conexao->getConexao(), $query);
 

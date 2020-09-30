@@ -31,9 +31,11 @@
       echo "<th scope='row'>".$i."</th>";
       echo "<td>".$value->getNome()."</td>";
       echo "<td>".$value->getTelefone()."</td>";
-			echo "<td>";
-				echo '<a class="btn btn-danger" href="?controladores=clientes&acao=listar&excluir=1&id='.$value->getCodCliente().'">Excluir</a> ';
-				echo '<a class="btn btn-warning" href="?controladores=clientes&acao=listar&editar=1&id='.$value->getCodCliente().'">Editar</a>';
+      echo "<td>";
+        
+        echo '<a class="btn btn-danger" href="?controladores=clientes&acao=listar&excluir='.$value->getCodCliente().'">Excluir</a> ';
+        echo '<a class="btn btn-warning" href="?controladores=clientes&acao=listar&editar='.$value->getCodCliente().'">Editar</a> ';
+        echo '<a class="btn btn-success" href="?controladores=pedidos&acao=inserir&cliente='.$value->getCodCliente().'">Fazer Pedido</a> ';
 			echo "</td>"; 
     echo "</tr>";
     $i++;
