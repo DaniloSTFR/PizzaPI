@@ -8,7 +8,7 @@
 <?php  if($sucesso && $formPost){  ?>
       <div class="form-row">
           <div class="col-md-12  alert alert-success" role="alert">
-            Cliente <?php  echo ($name.$nameErr); ?>, cadastrado  com sucesso !
+            Cliente <?php  echo ($name.$nameErr); ?>, Cadastrado  com sucesso !
           </div>
       </div>       
 <?php  } else if($formPost){ ?>

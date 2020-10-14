@@ -19,7 +19,7 @@ class Conexao {
         if (!$this->conexao ) {
             die('<script> console.log ("Erro na Conexão'.mysqli_connect_error().'") </script>');
         }
-        echo ('<script> console.log ("Conectado com Sucesso") </script>');
+        //echo ('<script> console.log ("Conectado com Sucesso") </script>');
       }
 
     function getConexao(){

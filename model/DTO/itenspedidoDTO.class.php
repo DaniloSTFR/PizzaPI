@@ -33,5 +33,13 @@ class ItensPedidoDTO {
        return $this->valorFinal;
     }
 
+    private $observacaoItem; 
+    function setObservacaoItem($valor){
+        $this->observacaoItem = $valor;
+    }
+    function getObservacaoItem(){
+       return $this->observacaoItem;
+    }
+
 }
 ?>

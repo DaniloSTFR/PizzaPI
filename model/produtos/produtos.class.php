@@ -25,7 +25,7 @@ class Produtos{
         }
         $query .= ' ORDER BY TP.descricaoTipo, PDT.nomeProduto ASC; ';
 
-        echo ('<script> console.log ("'.$query.'") </script>');
+        //echo ('<script> console.log ("'.$query.'") </script>');
 
         $this->result = mysqli_query($conexao->getConexao(), $query);
 

@@ -19,7 +19,12 @@ class Login{
         $this->login = mysqli_real_escape_string($conexao->getConexao(), $login);
         $this->senha = mysqli_real_escape_string($conexao->getConexao(), $senha);
 
-        $query = "select nome from usuario where login = '{$this->login}' and senha = md5('{$this->senha}')";
+        $query = "select * from usuario where login = '{$this->login}' and senha = md5('{$this->senha}')";
+
+        $query  = "SELECT U.codUsuario, U.nome, U.login, U.codCargos, C.descricaoCargos ";
+        $query .= "FROM pizzapi.usuario AS U ";
+        $query .= "INNER JOIN pizzapi.cargos as C on U.codCargos = C.codCargos ";
+        $query .= "WHERE U.login = '{$this->login}' and U.senha = md5('{$this->senha}'); ";
 
         $this->result = mysqli_query($conexao->getConexao(), $query);
 
