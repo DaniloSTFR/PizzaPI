@@ -106,8 +106,8 @@
 
         </ul>
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Pedidos" aria-label="Search">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Procurar</button>
+          <input id="valueBuscarPedido" class="form-control mr-sm-2" type="text" placeholder="Pedidos" aria-label="Search">
+          <button id="buttonBuscarPedido" class="btn btn-secondary my-2 my-sm-0" onclick="procurarPedidoIndex()" type="button">Procurar</button>
         </form>
 
         <div class="nav-item">
@@ -126,5 +126,21 @@
       window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.5.1.js"><\/script>')
     </script> 
     <script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript">
+      function procurarPedidoIndex(){
+        let valueBuscarPedido = document.getElementById("valueBuscarPedido");
+        let controlador = <?php echo  "'".$controlador."'"; ?>;
+        let acao = <?php echo "'".$acao."'"; ?>;
+        //console.log("controlador " + controlador + " acao " + acao);
+        if(controlador=='pedidos' && acao=='listar'){
+          procurarPedidoNaLista(valueBuscarPedido.value);
+        }else{
+          window.location.href = `?controladores=pedidos&acao=listar&discriminador=${valueBuscarPedido.value}`;
+        }
+
+      }
+
+    </script>
    
   </html>

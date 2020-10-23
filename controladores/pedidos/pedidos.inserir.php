@@ -10,7 +10,7 @@ $novoCliente = new Clientes();
 $clienteDTO = new ClienteDTO();
 $readonly = "readonly";
 $hiddenDisable = " disabled hidden ";
-$dadosClienteCarregados =  false;
+$dadosClienteCarregados =  0;
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
@@ -40,10 +40,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $complemento = $clienteDTO->getEndereco()->getComplemento();
     $cep = $clienteDTO->getEndereco()->getCep();
 
-    $dadosClienteCarregados = true;
+    $dadosClienteCarregados = 1;
 
     $produtos = new Produtos();
-    $listarDeProdutos = $produtos->listarProdutos(false);
+    $listarDeProdutos = $produtos->listarProdutos(true);
 
     /*     echo ('<script> console.log ("Saida: '.'")')$cliente =  $novoCliente->inserirCliente($name, $telefone, $logradouro, $numero, $bairro, $complemento, $cep);
 
@@ -69,126 +69,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 <?php include('view/cadastroCliente.form.php'); ?>
 
-
-<div class="row mb-3">
-
-  <div class="col-md-3 themed-grid-col"></div>
-
-  <div class="col-md-6 themed-grid-col">
-
-    <div class="form-row">
-      <div class="form-group float-md-left col-md-12">
-        <hr>
-        <p class="h4 float-md-left">Selecionar Itens</p>
-        <br>
-        <hr>
-      </div>
-    </div>
-
-    <form id="frm_pedido" action="" method="post">
-      <!-- <form> -->
-
-      <div class="form-group">
-        <label for="listaProdutos">Produtos</label>
-        <select multiple class="form-control" name="listaProdutos" id="listaProdutos" onChange='selectItem()'>
-          <?php
-          $i = 1;
-          foreach ($listarDeProdutos as &$value) {
-            echo "<option value='" . $value->getCodProdutos() . "'  ";
-            echo " data-toggle='tooltip' data-placement='right' title='" . $value->getDescricaoProduto() . "' > ";
-            echo $value->getDescricaoTipo() . " -- " . $value->getNomeProduto() . " -- R$" . $value->getValor();
-            echo "</option>";
-            $i++;
-          }
-          ?>
-        </select>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-8">
-          <label for="itemescolhido">Item</label>
-          <input name="itemescolhido" type="text" class="form-control" id="itemescolhido" value="" <?php echo $readonly; ?>>
-        </div>
-        <div class="form-group col-md-2">
-          <label for="itemqX">Quantidade:</label>
-          <p id="itemqX" class="float-md-right">X</p>
-          <!-- <input name="itemqtd" type="text" class="form-control" id="itemqtd" value=""> -->
-        </div>
-        <div class="form-group col-md-2">
-          <label for="itemqtd">&nbsp;&nbsp;</label>
-          <input name="itemqtd" type="text" class="form-control align-items-end" id="itemqtd" value="">
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="descricaoItem">Descricao</label>
-          <input name="descricaoItem" type="text" class="form-control" id="descricaoItem" value="" <?php echo $readonly; ?>>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label for="observacaoItem">Observação</label>
-          <input name="observacaoItem" type="text" class="form-control" id="observacaoItem" value="">
-        </div>
-      </div>
-
-      <div class="form-group float-md-right">
-        <button type="button" class="btn btn-outline-success" onclick="adicionarItemProduto()"><strong>+ Acrescentar</strong></button>
-      </div>
-
-      <br> <br>
-      <div class="form-group">
-        <div class="form-group float-md-left col-md-12">
-          <hr>
-          <p class="h4 float-md-left">Pedidos do dia</p>
-          <br>
-          <hr>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <table id="itemPedidosTable" class="table table-striped" name="itemPedidosTable">
-            <tbody>
-
-            </tbody>
-
-          </table>
-        </div>
-      </div>
-
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <h4 id="totalfinal" class="float-md-right text-right">Total: R$ 0,00</h4>
-        </div>
-      </div>
-
-      <div class="form-group float-md-right">
-        <!-- <button type="submit" class="btn btn-success btn-lg"><strong>Finalizar Pedido</strong></button> -->
-        <button type="button" id="btfinalizarPedido" name="btfinalizarPedido" value="btfinalizarPedido" class="btn btn-success btn-lg"><strong>Finalizar Pedido</strong></button>
-      </div>
-
-    </form>
-    <div id="insertPedidoSucess" class="form-row">
-      <!-- Falha ou sucesso na inserção -->
-    </div>
-  </div>
-
-  <div class="col-md-3 themed-grid-col"></div>
-
-</div>
+<?php include('view/cadastroPedido.form.php'); ?>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+
 <script type="text/javascript">
   var totalFinal = 0;
   var dadosDoPedido;
   var dadosItenspedidos = [];
 
-  if (<?php echo $dadosClienteCarregados; ?>) {
+  if (Number(<?php echo $dadosClienteCarregados ; ?>)) {
 
-    let codCliente = <?php echo  $clienteDTO->getCodCliente(); ?>;
+    let codCliente = 0<?php echo  $clienteDTO->getCodCliente(); ?>;
     let codUsuarioRegistro = <?php echo $codUsuarioLog; ?>;
     let valorPedido = 0;
     dadosDoPedido = new dadosClientePedido(codCliente, codUsuarioRegistro, valorPedido);
@@ -276,8 +168,6 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   }
 
   function removerItemProduto(row, codProduto) {
-    //console.log(dadosItenspedidos);
-
     let i = row.parentNode.parentNode.rowIndex;
     let someArray = dadosItenspedidos.filter(x => x.codProdutos == codProduto);
     let itemRemovido = someArray.shift();
@@ -317,18 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         //frm_mail_data.append('totalFinal', totalFinal);
         frm_mail_data.append('dadospedidojson', JSON.stringify(dadosDoPedido));
 
-
-        /*             for (var key of frm_mail_data.keys()) {
-                        console.log(key); 
-                        console.log (frm_mail_data.get(key));  
-                    } */
-
         var obj = JSON.parse(frm_mail_data.get('dadospedidojson'));
-        //console.log(obj);
-
-        /*for (x in obj) {
-          console.log(x +" - "+ obj[x]); 
-        }  */
 
         $.ajax({
           url: "controladores/pedidos/finalizarpedido.inserir.php",

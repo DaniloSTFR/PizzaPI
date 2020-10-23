@@ -5,10 +5,14 @@
 
   if(!empty($_GET['controladores'])){
     $controlador = $_GET['controladores'];
+  }else{
+    $controlador = "pedidos";
   }
   
   if(!empty($_GET['acao'])){
     $acao = $_GET['acao'];
+  }else{
+    $acao = "listar";
   }
 
   if($controlador == "pedidos"){
