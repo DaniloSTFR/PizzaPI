@@ -69,45 +69,83 @@ if ($sucessoItensPedidosAtivos) {
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 <script type="text/javascript">
-
-
   var listarPedidosAtivosObj = [];
   var listaItensPedidosAtivosObj = [];
+  loadPage();
 
-  if(<?php echo $discriminadorAtivo;?>){
-    Promise.resolve()
-      .then(() => obterlistaPedidosAtivos())
-      .then(() => obterlistaItensPedidosAtivos())
-      .then(() => procurarPedidoNaLista('<?php echo $discriminador;?>'));
-  }
-  else{
-   Promise.resolve()
-      .then(() => obterlistaPedidosAtivos())
-      .then(() => obterlistaItensPedidosAtivos())
-      .then(() => preencherComOsPedidosNaLista());
+  function loadPage() {
+    if (<?php echo $discriminadorAtivo; ?>) {
+      Promise.resolve()
+        .then(() => obterlistaPedidosAtivos())
+        .then(() => obterlistaItensPedidosAtivos())
+        .then(() => procurarPedidoNaLista('<?php echo $discriminador; ?>'));
+    } else {
+      Promise.resolve()
+        .then(() => obterlistaPedidosAtivos())
+        .then(() => obterlistaItensPedidosAtivos())
+        .then(() => preencherComOsPedidosNaLista());
+    }
   }
 
-  function setlistarPedidosAtivosObj(value){
+  function setlistarPedidosAtivosObj(value) {
     listarPedidosAtivosObj = JSON.parse(value);
     //console.log ("setlistarPedidosAtivosObj:" +listarPedidosAtivosObj);
   }
 
-  function setlistaItensPedidosAtivosObj(value){
+  function setlistaItensPedidosAtivosObj(value) {
     listaItensPedidosAtivosObj = JSON.parse(value);
     //console.log ("setlistaItensPedidosAtivosObj"+listaItensPedidosAtivosObj);
   }
 
-  function cancelarPedido() {
-    console.log("Botão clicado");
+  async function cancelarPedido(codPedido) {
+    let someArray = listarPedidosAtivosObj.filter(x => x.codPedido == codPedido);
+    let pedido = someArray.pop();
+    console.log(someArray);
+    if (confirm(`Tem certeza que deseja cancelar o pedido de:\n${pedido.nome} - Tel: ${pedido.telefone}\nValor: R$ ${monetario(Number(pedido.valorPedido))}`)) {
+      console.log("CancelarPedido");
+      var frm = new FormData();
+      frm.append('acao', 'cancelarpedido');
+      frm.append('codPedido', `${codPedido}`);
+      frm.append('codUsuario', `<?php echo $codUsuarioLog ?>`);
+      console.log(frm);
+
+      await $.ajax({
+          url: "controladores/pedidos/update.pedido.php",
+          data: frm,
+          cache: false,
+          processData: false,
+          contentType: false,
+          type: 'POST',
+          success: async function(result) {
+            if (result) {
+              console.log("Concluiodo Sucess");
+            } else {
+              alert("Erro ao cancelar o pedido!");
+            }
+          }
+        })
+        .done(function(result) {
+          console.log("Concluido Done:");
+          loadPage();
+        })
+        .fail(function() {
+          alert("Erro ao cancelar o pedido!");
+        });
+    }
+
   }
 
-  async function obterlistaPedidosAtivos(){
+  function editarPedido(codPedido) {
+    console.log("Editar pedido");
+  }
+
+  async function obterlistaPedidosAtivos() {
     //console.log("obterlistaPedidosAtivos");
     var frm = new FormData();
     frm.append('acao', 'obterpedidos');
 
     await $.ajax({
-        url: "controladores/pedidos/updatepedido.listar.php",
+        url: "controladores/pedidos/update.pedido.php",
         data: frm,
         cache: false,
         processData: false,
@@ -115,13 +153,13 @@ if ($sucessoItensPedidosAtivos) {
         type: 'POST',
         success: async function(result) {
           if (result) {
-           
+
           } else {
             alert("Erro ao obter os dados!");
           }
         }
       })
-      .done(function (result) {
+      .done(function(result) {
         setlistarPedidosAtivosObj(result);
       })
       .fail(function() {
@@ -129,13 +167,13 @@ if ($sucessoItensPedidosAtivos) {
       });
   }
 
-  async function obterlistaItensPedidosAtivos(){
+  async function obterlistaItensPedidosAtivos() {
     //console.log ("obterlistaItensPedidosAtivos");
     var frm = new FormData();
     frm.append('acao', 'obteritenspedidos');
 
     await $.ajax({
-        url: "controladores/pedidos/updatepedido.listar.php",
+        url: "controladores/pedidos/update.pedido.php",
         data: frm,
         cache: false,
         processData: false,
@@ -149,7 +187,7 @@ if ($sucessoItensPedidosAtivos) {
           }
         }
       })
-      .done(function (result) {
+      .done(function(result) {
         setlistaItensPedidosAtivosObj(result);
       })
       .fail(function() {
@@ -164,7 +202,7 @@ if ($sucessoItensPedidosAtivos) {
       window.location.href = "?controladores=pedidos&acao=listar";
     }, 3000);
   }
-  
+
   function preencherComOsPedidosNaLista() {
     let divlistcard = document.getElementById('listcard');
     console.log('Construindo...');
@@ -174,7 +212,7 @@ if ($sucessoItensPedidosAtivos) {
   }
 
   function procurarPedidoNaLista(value) {
-    console.log ("procurarPedidoNaLista");
+    console.log("procurarPedidoNaLista");
     let discriminador = value.toUpperCase();
     let divlistcard = document.getElementById('listcard');
     divlistcard.innerHTML = "";
@@ -182,7 +220,7 @@ if ($sucessoItensPedidosAtivos) {
 
     if (someArray.length > 0) {
       divlistcard.innerHTML = gerarCardPedidos(someArray);
-    }else {
+    } else {
       divlistcard.innerHTML = "<div class='form-group col-md-6'><h5>Não há pedidos...</h5><br></div>";
     }
   }
@@ -192,7 +230,7 @@ if ($sucessoItensPedidosAtivos) {
 
     dadosNextStatus = {};
     dadosNextStatus.codPedido = codPedido,
-    dadosNextStatus.nextstatus = nextstatus;
+      dadosNextStatus.nextstatus = nextstatus;
 
     var frm_mail_data = new FormData();
     //frm_mail_data.append('totalFinal', totalFinal);
@@ -202,7 +240,7 @@ if ($sucessoItensPedidosAtivos) {
     console.log(obj);
 
     $.ajax({
-        url: "controladores/pedidos/updatepedido.listar.php",
+        url: "controladores/pedidos/update.pedido.php",
         data: frm_mail_data,
         cache: false,
         processData: false,
@@ -222,9 +260,9 @@ if ($sucessoItensPedidosAtivos) {
       .fail(function() {
         alert("Erro ao obter os dados!");
       });
-/*       .always(function() {
-        alert("complete");
-      }); */
+    /*       .always(function() {
+            alert("complete");
+          }); */
 
   }
 
@@ -240,10 +278,10 @@ if ($sucessoItensPedidosAtivos) {
       saida += `          <span>${element.telefone}</span> `;
       saida += `        </div> `;
       saida += `        <div class="form-group col-md-2"> `;
-      saida += '          <span>Data-hora: '+dateEmMysql(element.dataCriacao)+'</span> ';
+      saida += '          <span>Data-hora: ' + dateEmMysql(element.dataCriacao) + '</span> ';
       saida += `        </div> `;
       saida += `        <div class="form-group col-md-4 float-md-right"> `;
-      saida += `          <button type="button" class="btn btn-danger float-md-right" onclick="cancelarPedido()"><strong>Canlcelar<br>Pedido</strong></button> `;
+      saida += `          <button type="button" class="btn btn-danger float-md-right" onclick="cancelarPedido(${element.codPedido})"><strong>Canlcelar<br>Pedido</strong></button> `;
       saida += `        </div> `;
       saida += `      </div> `;
       saida += `      <div class="card-body form-row"> `;
@@ -354,8 +392,7 @@ if ($sucessoItensPedidosAtivos) {
     return dinheiro;
   }
 
-  function dateEmMysql(dateSql)
-  {
+  function dateEmMysql(dateSql) {
     let ano = dateSql.substr(0, 4);
     let mes = dateSql.substr(5, 2);
     let dia = dateSql.substr(8, 2);
@@ -364,6 +401,4 @@ if ($sucessoItensPedidosAtivos) {
     return dia + "/" + mes + "/" + ano + " " + hora;
     //return ano;
   }
-
-
 </script>

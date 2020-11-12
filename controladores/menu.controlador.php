@@ -1,19 +1,5 @@
 
 <?php 
-  $controlador = "";
-  $acao = "";
-
-  if(!empty($_GET['controladores'])){
-    $controlador = $_GET['controladores'];
-  }else{
-    $controlador = "pedidos";
-  }
-  
-  if(!empty($_GET['acao'])){
-    $acao = $_GET['acao'];
-  }else{
-    $acao = "listar";
-  }
 
   if($controlador == "pedidos"){
     if($acao == "inserir"){
@@ -63,6 +49,12 @@
       require_once("controladores/usuarios/usuarios.editar.php");
     }else if($acao == "apagar"){
       require_once("controladores/usuarios/usuarios.apagar.php");
+    }
+  }
+
+  if($controlador == "administrativo"){
+    if($acao == "relatorio"){
+      require_once("controladores/administrativo/administrativo.relatorios.php");
     }
   }
 

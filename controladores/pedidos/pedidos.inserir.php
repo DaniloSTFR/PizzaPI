@@ -9,8 +9,10 @@ $formPost =  ($_SERVER["REQUEST_METHOD"] == "POST");
 $novoCliente = new Clientes();
 $clienteDTO = new ClienteDTO();
 $readonly = "readonly";
-$hiddenDisable = " disabled hidden ";
+$hiddenDisableCadastrar = " disabled hidden ";
+$hiddenDisableEditar = " disabled hidden ";
 $dadosClienteCarregados =  0;
+$submitForm = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
@@ -77,14 +79,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   var totalFinal = 0;
   var dadosDoPedido;
   var dadosItenspedidos = [];
+  var listadeClientesFiltrados;
+  var codClientePHP = <?php echo  $clienteDTO->getCodCliente(); ?>;
 
-  if (Number(<?php echo $dadosClienteCarregados ; ?>)) {
-
-    let codCliente = 0<?php echo  $clienteDTO->getCodCliente(); ?>;
+  if (Number(<?php echo $dadosClienteCarregados ; ?>)) {   
     let codUsuarioRegistro = <?php echo $codUsuarioLog; ?>;
     let valorPedido = 0;
-    dadosDoPedido = new dadosClientePedido(codCliente, codUsuarioRegistro, valorPedido);
-    //console.log(dadosDoPedido);
+    dadosDoPedido = new dadosClientePedido(codClientePHP, codUsuarioRegistro, valorPedido);
+    console.log("Novo:"+ codClientePHP);
+    console.log(dadosDoPedido);
   }
 
   function dadosItemDoPedido(codProdutos, quatidade, valorFinal, observacaoItem) {
@@ -197,6 +200,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
       }, 2000);
   }
 
+
   $(document).ready(function() {
     $("#btfinalizarPedido").click(function() {
       if (dadosItenspedidos.length > 0) {
@@ -206,10 +210,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         var frm_mail_data = new FormData();
         //frm_mail_data.append('totalFinal', totalFinal);
         frm_mail_data.append('dadospedidojson', JSON.stringify(dadosDoPedido));
+       
 
         var obj = JSON.parse(frm_mail_data.get('dadospedidojson'));
+        console.log (obj)
 
-        $.ajax({
+         $.ajax({
           url: "controladores/pedidos/finalizarpedido.inserir.php",
           data: frm_mail_data,
           cache: false,
@@ -220,13 +226,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //console.log ("result:" + result);
             var saida = document.getElementById('insertPedidoSucess'); 
             if(result){
-              saida.innerHTML = '<div  class="col-md-12  alert alert-success" role="alert">Pedido salvo com sucesso!</div>'; 
+              saida.innerHTML = '<div  class="col-md-12  alert alert-success" role="alert">Pedido salvo com sucesso!'+result+'</div>'; 
+              //console.log (result);
               redirectTimeFunction();            
             }else{
               saida.innerHTML = '<div  class="col-md-12  alert alert-danger" role="alert">Não foi possível salvar o pedido!</div>';
             }
           }
-        });
+        }); 
 
       } else {
         alert('Nenhum item foi selecionado !');

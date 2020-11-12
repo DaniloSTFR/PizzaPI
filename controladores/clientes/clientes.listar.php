@@ -33,8 +33,8 @@
       echo "<td>".$value->getTelefone()."</td>";
       echo "<td>";
         
-        echo '<a class="btn btn-danger" href="?controladores=clientes&acao=listar&excluir='.$value->getCodCliente().'">Excluir</a> ';
-        echo '<a class="btn btn-warning" href="?controladores=clientes&acao=listar&editar='.$value->getCodCliente().'">Editar</a> ';
+        echo '<a class="btn btn-danger" href="?controladores=clientes&acao=excluir&cliente='.$value->getCodCliente().'">Excluir</a> ';
+        echo '<a class="btn btn-warning" href="?controladores=clientes&acao=editar&cliente='.$value->getCodCliente().'">Editar</a> ';
         echo '<a class="btn btn-success" href="?controladores=pedidos&acao=inserir&cliente='.$value->getCodCliente().'">Fazer Pedido</a> ';
 			echo "</td>"; 
     echo "</tr>";

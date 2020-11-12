@@ -254,7 +254,7 @@ function defineButtonStatusClass($codStatusPedido, $statusDescricao, $codPedido)
     console.log(obj);
 
     $.ajax({
-      url: "controladores/pedidos/updatepedido.listar.php",
+      url: "controladores/pedidos/update.pedido.php",
       data: frm_mail_data,
       cache: false,
       processData: false,

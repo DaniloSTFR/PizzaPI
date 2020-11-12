@@ -151,6 +151,29 @@ class Pedidos{
 
     }
 
+    function cancelarPedido($codPedido,$codUsuario){
+
+        $conexao = new Conexao();
+
+        $codPedidoSQL = mysqli_real_escape_string( $conexao->getConexao(),$codPedido);
+        $codUsuarioSQL = mysqli_real_escape_string($conexao->getConexao(),$codUsuario);
+
+        $query  = " UPDATE pizzapi.pedido ";
+        $query .= " SET ";
+        $query .= " codStatusPedido = 6, ";
+        $query .= " codUsuarioExclusao = ".$codUsuarioSQL.", ";
+        $query .= " dataExclusao =  CURRENT_TIMESTAMP() ";
+        $query .= " WHERE codPedido = ".$codPedidoSQL."; ";
+
+        $this->result = mysqli_query($conexao->getConexao(), $query);
+
+        if ($this->result !== TRUE)  {
+            return FALSE;
+        } else{
+            return  TRUE ;
+        }
+    }
+
     function getFetchAssoc(){
         return mysqli_fetch_assoc($this->result);
     }

@@ -4,7 +4,9 @@ include('model/clientes/clientes.class.php');
 $sucesso = false;
 $nameErr = $name = $telefone = $logradouro = $numero = $bairro = $complemento = $cep = "";
 $readonly ="";
-$hiddenDisable = "";
+$hiddenDisableCadastrar = " ";
+$hiddenDisableEditar = " disabled hidden ";
+$submitForm = "?controladores=clientes&acao=inserir";
 
 
 $formPost =  ($_SERVER["REQUEST_METHOD"] == "POST");

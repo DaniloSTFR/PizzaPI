@@ -1,8 +1,14 @@
 <?php
 
-include('model/conexao.class.php');
-include('model/enderecos/enderecos.class.php');
-include('model/DTO/clienteDTO.class.php'); 
+if(!@include_once("model/conexao.class.php")){
+    include_once('../../model/conexao.class.php');
+}
+if(!@include_once("model/enderecos/enderecos.class.php")){
+    include_once('../../model/enderecos/enderecos.class.php');
+}
+if(!@include_once("model/DTO/clienteDTO.class.php")){
+    include_once('../../model/DTO/clienteDTO.class.php');
+}
 
 /* include('../../model/conexao.class.php');
 include('../../model/endereco/endereco.class.php');
@@ -89,6 +95,8 @@ class Clientes{
         $query  .= "INNER JOIN pizzapi.endereco AS E ON E.codCliente = C.codCliente ";
         $query  .= "WHERE C.codCliente =". $cliente. " ;";
 
+        //echo $query;
+
         $this->result = mysqli_query($conexao->getConexao(), $query);
 
         while($row = mysqli_fetch_array($this->result) ){
@@ -114,8 +122,68 @@ class Clientes{
 
     }
 
+    function bucarClientesPorFiltro($filto){
+        $conexao = new Conexao();
+        $clienteDTO= new ClienteDTO();
+
+        $filtoSQL = mysqli_real_escape_string($conexao->getConexao(), $filto);
+
+        $query   = " SELECT cliente.codCliente, ";
+        $query  .= " cliente.nome, ";
+        $query  .= " cliente.telefone ";
+        $query  .= " FROM pizzapi.cliente ";
+        $query  .= " WHERE nome like '%".$filtoSQL."%' or ";
+        $query  .= " telefone like '%".$filtoSQL."%'; ";
+
+        $this->result = mysqli_query($conexao->getConexao(), $query);
+
+        if ($this->result->num_rows > 0)  {
+            return $this->getFetchObject();
+        } else{
+            return  (FALSE);
+        }
+    }
+
+    function editarcadastro($codClientePost, $codEnderecoPost,$nome, $telefone, $logradouro, $numero, $bairro, $complemento, $cep){
+        $conexao = new Conexao();
+
+        $nomeSQL = mysqli_real_escape_string($conexao->getConexao(), $nome);
+        $telefoneSQL = mysqli_real_escape_string($conexao->getConexao(), $telefone);
+        $codClientePost = mysqli_real_escape_string($conexao->getConexao(), $codClientePost);
+
+
+        $query  = " UPDATE pizzapi.cliente SET ";
+        $query .= " nome = '".$nomeSQL."' , telefone ='".$telefoneSQL."' ";
+        $query .= " WHERE codCliente = ".$codClientePost.";" ;
+
+        $this->result = mysqli_query($conexao->getConexao(), $query);
+
+        if ($this->result !== TRUE)  {
+            return false;
+        } 
+
+        $enderecoOBJ = new Enderecos();
+        $enderecoUp = $enderecoOBJ->editarEndereco($codEnderecoPost,$logradouro, $numero, $bairro, $complemento, $cep, $codClientePost);
+        
+        if($enderecoUp !== TRUE){
+            return false;
+        } 
+
+        return true;
+    }
+
+
     function getFetchAssoc(){
         return mysqli_fetch_assoc($this->result);
+    }
+
+    function getFetchObject(){
+        $lista = array();
+        while ($obj = $this->result->fetch_object()) {
+            array_push($lista,$obj);
+        }
+        $this->result->close();
+        return $lista; 
     }
 
 }

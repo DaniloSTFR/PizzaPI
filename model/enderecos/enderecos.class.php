@@ -1,7 +1,10 @@
 <?php
 
 /* include('model/conexao.class.php');*/
-include('model/DTO/enderecoDTO.class.php'); 
+//include('model/DTO/enderecoDTO.class.php');
+if(!@include_once("model/DTO/enderecoDTO.class.php")){
+    include_once('../../model/DTO/enderecoDTO.class.php');
+} 
 
 //include('../../model/conexao.class.php');
 //include('../../model/DTO/enderecoDTO.class.php'); 
@@ -28,7 +31,7 @@ class Enderecos{
 
         $query  = "INSERT INTO pizzapi.endereco ";
         $query .= "(logradouro,numero,bairro,complemento, cep, codCliente) VALUES ";
-        $query .= " ('".$logradouro."', '".$numero."', '".$bairro."', '".$complemento."', '".$cep."',  '".$codCliente."'); ";
+        $query .= " ('".$logradouroSQL."', '".$numeroSQL."', '".$bairroSQL."', '".$complementoSQL."', '".$cepSQL."',  '".$codClienteSQL."'); ";
 
         $this->resultEnd = mysqli_query($conexao->getConexao(), $query);
         $last_id = $conexao->getConexao()->insert_id;
@@ -48,6 +51,34 @@ class Enderecos{
         $novoEndereco->setCodCliente($codCliente);
 
         return $novoEndereco;
+    }
+
+    function editarEndereco($codEnderecoPost,$logradouro, $numero, $bairro, $complemento, $cep, $codCliente){
+        $conexao = new Conexao();
+        
+        $codEnderecoSQL = mysqli_real_escape_string($conexao->getConexao(), $codEnderecoPost); 
+        $logradouroSQL = mysqli_real_escape_string($conexao->getConexao(), $logradouro);
+        $numeroSQL = mysqli_real_escape_string($conexao->getConexao(), $numero);
+        $bairroSQL = mysqli_real_escape_string($conexao->getConexao(), $bairro);
+        $complementoSQL = mysqli_real_escape_string($conexao->getConexao(), $complemento);
+        $cepSQL = mysqli_real_escape_string($conexao->getConexao(), $cep);
+        $codClienteSQL = mysqli_real_escape_string($conexao->getConexao(), $codCliente);
+
+        $query  = " UPDATE pizzapi.endereco SET";
+        $query .= " logradouro = '".$logradouroSQL."', ";
+        $query .= " numero = '".$numeroSQL."', ";
+        $query .= " bairro = '".$bairroSQL."', ";
+        $query .= " complemento = '".$complementoSQL."', ";
+        $query .= " cep = '".$cepSQL."' ";
+        $query .= " WHERE codEndereco = ".$codEnderecoSQL." AND codCliente = ".$codClienteSQL." ; ";
+
+        $this->resultEnd = mysqli_query($conexao->getConexao(), $query);
+
+        if ($this->resultEnd !== TRUE) {
+          return false;
+         }
+
+        return true;
     }
 
     function getFetchAssoc(){

@@ -16,6 +16,21 @@
     $codCargosLog = intval($_SESSION['codCargos']);
   }
 
+  $controlador = "";
+  $acao = "";
+
+  if(!empty($_GET['controladores'])){
+    $controlador = $_GET['controladores'];
+  }else{
+    $controlador = "pedidos";
+  }
+  
+  if(!empty($_GET['acao'])){
+    $acao = $_GET['acao'];
+  }else{
+    $acao = "listar";
+  }
+
   ?>
 
 
@@ -52,6 +67,15 @@
     </style>
     <!-- Custom styles for this template -->
     <link href="starter-template.css" rel="stylesheet">
+
+    <?php
+    
+    if($controlador == "administrativo"){
+      if($acao == "relatorio"){
+        require_once("view/head.relatorio.php");
+      }
+    }    
+    ?>
     
   </head>
 
@@ -101,13 +125,26 @@
             </div>
           </li>
 
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropAdm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrativo</a>
+            <div class="dropdown-menu" aria-labelledby="dropAdm">
+              <a class="dropdown-item" href="?controladores=administrativo&acao=relatorio">Relatórios</a>
+              <!-- <a class="dropdown-item" href="?controladores=administrativo&acao=listar">Listar Usuários</a> -->
+              <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+            </div>
+          </li>
+
 
 
 
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input id="valueBuscarPedido" class="form-control mr-sm-2" type="text" placeholder="Pedidos" aria-label="Search">
-          <button id="buttonBuscarPedido" class="btn btn-secondary my-2 my-sm-0" onclick="procurarPedidoIndex()" type="button">Procurar</button>
+          <button id="buttonBuscarPedido" class="btn btn-secondary my-2 my-sm-0" onclick="procurarPedidoIndex()" type="button">Procurar
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-binoculars-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4.5 1A1.5 1.5 0 0 0 3 2.5V3h4v-.5A1.5 1.5 0 0 0 5.5 1h-1zM7 4v1h2V4h4v.882a.5.5 0 0 0 .276.447l.895.447A1.5 1.5 0 0 1 15 7.118V13H9v-1.5a.5.5 0 0 1 .146-.354l.854-.853V9.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v.793l.854.853A.5.5 0 0 1 7 11.5V13H1V7.118a1.5 1.5 0 0 1 .83-1.342l.894-.447A.5.5 0 0 0 3 4.882V4h4zM1 14v.5A1.5 1.5 0 0 0 2.5 16h3A1.5 1.5 0 0 0 7 14.5V14H1zm8 0v.5a1.5 1.5 0 0 0 1.5 1.5h3a1.5 1.5 0 0 0 1.5-1.5V14H9zm4-11H9v-.5A1.5 1.5 0 0 1 10.5 1h1A1.5 1.5 0 0 1 13 2.5V3z"/>
+            </svg>
+          </button>
         </form>
 
         <div class="nav-item">
@@ -121,9 +158,10 @@
       require_once("controladores/menu.controlador.php");
       ?>
     </main><!-- /.container -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    
+    <script src="js/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script>
-      window.jQuery || document.write('<script src="https://code.jquery.com/jquery-3.5.1.js"><\/script>')
+      window.jQuery || document.write('<script src="js/jquery-3.5.1.js"><\/script>')
     </script> 
     <script src="https://getbootstrap.com/docs/4.5/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -142,5 +180,7 @@
       }
 
     </script>
+
+<script src="js/jquery.mask.js"></script>
    
   </html>

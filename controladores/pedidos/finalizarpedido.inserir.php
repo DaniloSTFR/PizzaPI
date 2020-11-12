@@ -7,11 +7,11 @@
 
         $pedidos = new Pedidos();
         $sucesso = $pedidos ->inserirPedido($dadospedidojsonDecode);
-        $saida = "";
+        $saida = 0;
         if($sucesso){
-            $saida = true;
+            $saida = 1;
         }else{
-            $saida = false;
+            $saida = 0;
         }
 
         //var_dump($saida);
